@@ -112,7 +112,8 @@ func main() {
 
 			_ = dc.UpdateGameStatus(0, numplayers+" players in "+config.StatusServerName)
 		}
-		time.Sleep(5)
+
+		time.Sleep(time.Second * 5)
 	}()
 
 	fmt.Println("Bot is now running.  Press CTRL-C to exit.")
