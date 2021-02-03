@@ -103,17 +103,19 @@ func main() {
 	}
 
 	go func() {
-		if config.StatusServerName != "" {
-			info, _ := query.Do(config.StatusServerAddress)
-			numplayers, ok := info["numplayers"]
-			if !ok {
-				numplayers = "0"
+		for {
+			if config.StatusServerName != "" {
+				info, _ := query.Do(config.StatusServerAddress)
+				numplayers, ok := info["numplayers"]
+				if !ok {
+					numplayers = "0"
+				}
+
+				_ = dc.UpdateGameStatus(0, numplayers+" players in "+config.StatusServerName)
 			}
 
-			_ = dc.UpdateGameStatus(0, numplayers+" players in "+config.StatusServerName)
+			time.Sleep(time.Second * 5)
 		}
-
-		time.Sleep(time.Second * 5)
 	}()
 
 	fmt.Println("Bot is now running.  Press CTRL-C to exit.")
